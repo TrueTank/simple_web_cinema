@@ -1,0 +1,42 @@
+body {
+    font-family: PT Root UI,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    font-size: 1rem;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    height: 8vh;
+    line-height: 8vh;
+    margin-bottom: 1vh;
+    background-color: #000;
+    color: rgb(191, 191, 191);
+}
+
+#box {
+    display: flex;
+    margin-bottom: 1vh;
+}
+
+#video-container {
+    flex: 70%;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+video {
+    height: 100%;
+    width: 100%;
+}
+
+#meta {
+    flex: 30%;
+    background: rgb(191, 191, 191);
+}
+
+#actors {
+    background: rgb(191, 191, 191);
+    height: 20vh;
+}
+
