@@ -112,3 +112,29 @@ td:nth-child(1) {
     margin-left: 1vh;
 }
 
+.review {
+    padding: 2vh;
+    margin-top: 1vh;
+}
+
+.review.positive {
+    background-color: #e4f7f0;
+}
+
+.review.negative {
+    background-color: #f2dcda;
+}
+
+.review-header {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.review-date {
+    font-size: 0.8rem;
+}
+
+.grade b {
+    font-size: 1.1rem;
+    margin-left: 1vh;
+}
