@@ -1,42 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Montserrat:wght@700&display=swap');
 body {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 1rem;
-    margin: 0;
+    background-color: #f2ebff;
+    font-family: 'Inter', sans-serif;
 }
 
 header {
-    text-align: center;
-    height: 8vh;
-    line-height: 8vh;
-    margin-bottom: 1vh;
-    background-color: #000;
-    color: rgb(191, 191, 191);
-}
+    max-width: 1260px;
+    margin: 20px 90px;
 
-#box {
     display: flex;
-    margin-bottom: 1vh;
+    justify-content: space-between;
 }
 
-#video-container {
-    flex: 70%;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
+#main-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+
+}
+
+#login-button {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    opacity: 0.8;
+}
+
+main {
+    max-width: 1260px;
+    height: 499px;
+    margin: 135px 90px 107px 90px;
+    display: flex;
+    flex-direction: row;
 }
 
 video {
-    height: 100%;
-    width: 100%;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    width: 826px;
 }
-
-#meta {
-    flex: 30%;
-    background: rgb(191, 191, 191);
-}
-
-#actors {
-    background: rgb(191, 191, 191);
-    height: 20vh;
-}
-

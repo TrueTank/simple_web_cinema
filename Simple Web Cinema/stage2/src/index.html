@@ -6,26 +6,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>Hyper Cinema</header>
-<div id="box">
-    <div id="video-container">
-    <video controls src="http://176.28.64.160:8082/media/upload/tvmiddleware/big_buck_bunny_1080p_h264.mov"></video>
-    </div>
-    <div id="meta">
-        <div id="name">Shrek</div>
-        <div id="rating">6+</div>
-        <div id="sub-info">2001, USA, 1h 30m</div>
-        <div id="description">A mean lord exiles fairytale creatures to the swamp of a grumpy ogre, who must go on a quest and rescue a princess for the lord in order to get his land back.</div>
-        <table>
-            <tr><td>Directors</td><td>Andrew Adamson Vicky Jenson</td></tr>
-            <tr><td>Genres</td><td>Animation Adventure Comedy</td></tr>
-            <tr><td>IMDB</td><td>7.9</td></tr>
-            <tr><td>Kinopoisk</td><td>8.2</td></tr>
-        </table>
-        <button>Reviews</button>
-        <button>Trailer</button>
-    </div>
-</div>
-<div id="actors"></div>
+    <header>
+        <div id="main-title">Hyper Cinema</div>
+        <div id="login-button">Login</div>
+    </header>
+    <main>
+        <video controls poster="media/poster.png"></video>
+        <aside>
+            <div class="movie-title">
+                <div class="name">Shrek</div>
+                <div class="rating">6+</div>
+            </div>
+            <div class="sub-info">2001, USA, 1h 30m</div>
+            <div class="description">
+                A mean lord exiles fairytale creatures to the
+                swamp of a grumpy ogre, who must go on a
+                quest and rescue a princess for the lord in
+                order to get his land back.
+            </div>
+            <table>
+                <tr><th>Directors</th><td>Andrew Adamson Vicky Jenson</td></tr>
+                <tr><th>Genres</th><td>Animation Adventure Comedy</td></tr>
+                <tr><th>IMDB</th><td>7.9</td></tr>
+                <tr><th>Kinopoisk</th><td>8.2</td></tr>
+            </table>
+            <div class="buttons-container">
+                <button>Trailer</button>
+                <button>Reviews</button>
+            </div>
+        </aside>
+    </main>
 </body>
 </html>
