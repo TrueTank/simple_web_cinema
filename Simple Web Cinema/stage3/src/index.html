@@ -6,37 +6,81 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>Hyper Cinema</header>
-<div id="box">
-    <div id="video-container">
-    <video controls src="http://176.28.64.160:8082/media/upload/tvmiddleware/big_buck_bunny_1080p_h264.mov"></video>
-    </div>
-    <div id="meta">
-        <div id="name">Shrek</div>
-        <div id="rating">6+</div>
-        <div id="sub-info">2001, USA, 1h 30m</div>
-        <div id="description">A mean lord exiles fairytale creatures to the swamp of a grumpy ogre, who must go on a quest and rescue a princess for the lord in order to get his land back.</div>
+<header>
+    <div id="main-title">Hyper Cinema</div>
+    <div id="login-button">Login</div>
+</header>
+<main>
+    <video controls poster="media/poster.png"></video>
+    <aside>
+        <div class="movie-title">
+            <div class="name">Shrek</div>
+            <div class="rating">6+</div>
+        </div>
+        <div class="sub-info">2001, USA, 1h 30m</div>
+        <div class="description">
+            A mean lord exiles fairytale creatures to the
+            swamp of a grumpy ogre, who must go on a
+            quest and rescue a princess for the lord in
+            order to get his land back.
+        </div>
         <table>
-            <tr><td>Directors</td><td>Andrew Adamson Vicky Jenson</td></tr>
-            <tr><td>Genres</td><td>Animation Adventure Comedy</td></tr>
-            <tr><td>IMDB</td><td>7.9</td></tr>
-            <tr><td>Kinopoisk</td><td>8.2</td></tr>
+            <tr>
+                <th>Directors</th>
+                <td>Andrew Adamson Vicky Jenson</td>
+            </tr>
+            <tr>
+                <th>Genres</th>
+                <td>Animation Adventure Comedy</td>
+            </tr>
+            <tr>
+                <th>IMDB</th>
+                <td>7.9</td>
+            </tr>
+            <tr>
+                <th>Kinopoisk</th>
+                <td>8.2</td>
+            </tr>
         </table>
-        <a class="button">Reviews</a>
-        <a class="button">Trailer</a>
-    </div>
-</div>
-<div id="actors">
-    <div id="actors-header">Actors:</div>
-    <ul>
-        <li><img src="img/1.jpeg"><div>Mike Myers</div></li>
-        <li><img src="img/2.jpeg"><div>Eddie Murphy</div></li>
-        <li><img src="img/3.jpeg"><div>Cameron Diaz</div></li>
-        <li><img src="img/4.jpeg"><div>John Lithgow</div></li>
-        <li><img src="img/5.jpeg"><div>Vincent Cassel</div></li>
-        <li><img src="img/6.jpeg"><div>Andrew Adamson</div></li>
-        <li><img src="img/7.jpeg"><div>Elisa Gabrielli</div></li>
-    </ul>
-</div>
+        <div class="buttons-container">
+            <button>Trailer</button>
+            <button>Reviews</button>
+        </div>
+    </aside>
+    <section id="actors-section">
+        <div id="actors-header">Actors</div>
+        <div id="actors-list">
+            <article>
+                <img src="media/1.png">
+                <div>Mike Myers</div>
+            </article>
+            <article>
+                <img src="media/2.png">
+                <div>Eddie Murphy</div>
+            </article>
+            <article>
+                <img src="media/3.png">
+                <div>Cameron Diaz</div>
+            </article>
+            <article>
+                <img src="media/4.png">
+                <div>John Lithgow</div>
+            </article>
+            <article>
+                <img src="media/5.png">
+                <div>Vincent Cassel</div>
+            </article>
+            <article>
+                <img src="media/6.png">
+                <div>Andrew Adamson</div>
+            </article>
+            <article>
+                <img src="media/7.png">
+                <div>Elisa Gabrielli</div>
+            </article>
+        </div>
+    </section>
+</main>
+
 </body>
 </html>
