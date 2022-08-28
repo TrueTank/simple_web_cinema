@@ -15,14 +15,12 @@ header {
 }
 
 #main-title {
-    font-style: normal;
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
 }
 
 #login-button {
-    font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
@@ -59,7 +57,6 @@ aside {
     display: flex;
     font-family: 'Montserrat', sans-serif;
     color: black;
-    font-style: normal;
 }
 
 .name {
