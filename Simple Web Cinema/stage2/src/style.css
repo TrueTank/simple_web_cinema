@@ -66,13 +66,14 @@ aside {
 }
 
 .rating {
-    font-size: 20px;
-    width: 44px;
-    text-align: center;
-    height: 29px;
-    line-height: 29px;
     border: 1px solid #BBB8C0;
     border-radius: 6px;
+
+    font-size: 20px;
+    line-height: 29px;
+    text-align: center;
+    width: 44px;
+    height: 29px;
     display: inline-block;
     margin-left: 20px;
     margin-top: 10px;
@@ -120,9 +121,9 @@ button {
     border: 1px solid #822DB4;
     border-radius: 8px;
     color: #822DB4;
-    font-style: normal;
     font-weight: 700;
     font-size: 16px;
+    font-family: 'Inter', sans-serif;
     line-height: 19px;
 
     width: 180px;
