@@ -9,24 +9,22 @@ body {
 header {
     max-width: 1260px;
     margin: 20px 90px;
-
-    display: flex;
-    justify-content: space-between;
 }
 
 #main-title {
-    font-style: normal;
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
+    display: inline-block;
 }
 
 #login-button {
-    font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
     opacity: 0.8;
+
+    float: right;
 }
 
 main {

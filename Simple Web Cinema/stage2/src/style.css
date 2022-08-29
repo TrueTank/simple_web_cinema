@@ -9,15 +9,13 @@ body {
 header {
     max-width: 1260px;
     margin: 20px 90px;
-
-    display: flex;
-    justify-content: space-between;
 }
 
 #main-title {
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
+    display: inline-block;
 }
 
 #login-button {
@@ -25,6 +23,8 @@ header {
     font-size: 16px;
     line-height: 19px;
     opacity: 0.8;
+
+    float: right;
 }
 
 main {
@@ -79,7 +79,6 @@ aside {
 }
 
 .sub-info {
-    font-style: normal;
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
@@ -88,7 +87,6 @@ aside {
 }
 
 .description {
-    font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 26px;
@@ -96,7 +94,6 @@ aside {
 }
 
 table {
-    font-style: normal;
     font-size: 16px;
     font-weight: 400;
     margin-bottom: 35px;

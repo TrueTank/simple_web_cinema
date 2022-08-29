@@ -7,23 +7,15 @@ class Test extends StageTest {
     page = this.getPage(pagePath)
 
     tests = [
-        // Test 1 - check header
-        this.page.execute(() => {
-            this.header = document.getElementsByTagName('header');
-
-            return this.header.length > 0 ?
+        // Test 1 - check main-title
+        this.node.execute(async () => {
+            await this.page.setViewport({width: 1440, height: 740});
+            const title = await this.page.findBySelector('#main-title');
+            return title ?
                 correct() :
-                wrong(`Your page must contain a header tag.`)
+                wrong(`Your page must contain a main-title element.`)
         }),
-        // Test 2 - check main-title
-        this.page.execute(() => {
-            this.title = document.getElementById('main-title');
-
-            return this.title ?
-                correct() :
-                wrong(`Your page must contain an element with "main-title" id.`)
-        }),
-        // Test 3 - check login-button
+        // Test 2 - check login-button
         this.page.execute(() => {
             this.loginButton = document.getElementById('login-button');
 
@@ -31,24 +23,26 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page must contain an element with "login-button" id.`)
         }),
-        // Test 4 - check header margins
+        // Test 3 - check main title font
         this.page.execute(() => {
-            let headerStyles = window.getComputedStyle(this.header[0]);
-
-            return headerStyles.marginTop === '20px' && headerStyles.marginLeft === '90px'?
-                correct() :
-                wrong(`Check your header's margins, you have ${headerStyles.marginTop} from the top and ${headerStyles.marginLeft} from the left now.`)
-        }),
-        // Test 5 - check main title font
-        this.page.execute(() => {
+            this.title = document.getElementById('main-title');
             let titleStyles = window.getComputedStyle(this.title);
 
             return titleStyles.fontSize === '18px' && titleStyles.fontWeight === '500' &&  titleStyles.fontFamily.indexOf('Inter') !== -1 ?
                 correct() :
                 wrong(`Check your main-title element font size, family and weight (we expect that you have connected the font Inter using GoogleFonts).`)
         }),
-
-        // Test 6 - check body background-color
+        // Test 4 - check main title position
+        this.node.execute(async () => {
+            let titleCoords = await this.page.evaluate(async () => {
+                let titleObj = document.getElementById('main-title');
+                return [titleObj.getBoundingClientRect().x, titleObj.getBoundingClientRect().y];
+            });
+            return titleCoords[0] === 90 && titleCoords[1] === 20 ?
+                correct() :
+                wrong(`Check float and position of main-title element.`);
+        }),
+        // Test 5 - check body background-color
         this.page.execute(() => {
             let bodyStyles = window.getComputedStyle(document.body);
 
@@ -56,17 +50,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Check background-color of body.`)
         }),
-
-        // Test 7 - check body margins
-        this.page.execute(() => {
-            let bodyStyles = window.getComputedStyle(document.body);
-
-            return bodyStyles.margin ?
-                correct() :
-                wrong(`Make sure the body of your page has no margins.`)
-        }),
-
-        // Test 8 - check login-button font
+        // Test 7 - check login-button font
         this.page.execute(() => {
             let loginStyles = window.getComputedStyle(this.loginButton);
 
@@ -75,43 +59,18 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Check your login-button element font size, weight, family and opacity (we expect that you have connected the font Inter using GoogleFonts).`)
         }),
-        // Test 9 - check header width
-        this.page.execute(() => {
-            //TODO
-            return correct();
-        }),
-        // Test 10 - check login float
-        this.page.execute(() => {
-            //TODO
-            return correct();
-        }),
-        // Test 11 - check main
-        this.page.execute(() => {
-            this.main = document.getElementsByTagName('main');
+        // Test 8 - check login position
+        this.node.execute(async () => {
+            let loginCoords = await this.page.evaluate(async () => {
+                let loginObj = document.getElementById('login-button');
+                return [loginObj.getBoundingClientRect().x + loginObj.getBoundingClientRect().width, loginObj.getBoundingClientRect().y];
+            });
 
-            return this.main.length > 0 ?
+            return loginCoords[0] === 1350 && loginCoords[1] === 20 ?
                 correct() :
-                wrong(`Your page should contain a main tag, which should contain the main content of the page.`)
+                wrong(`Check float and position of login-button.`);
         }),
-        // Test 12 - check main width and height
-        this.page.execute(() => {
-            //TODO
-            return correct();
-        }),
-        // Test 13 - check main margins
-        this.page.execute(() => {
-            let mainStyles = window.getComputedStyle(this.main[0]);
-
-            return mainStyles.margin === "135px 90px 107px" ?
-                correct() :
-                wrong(`Please, check margins of your main tag.`)
-        }),
-        // Test 14 - check main flex
-        this.page.execute(() => {
-            //TODO
-            return correct();
-        }),
-        // Test 15 - check video
+        // Test 9 - check video
         this.page.execute(() => {
             this.video = document.getElementsByTagName('video');
 
@@ -119,7 +78,23 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page should contain a video tag.`)
         }),
-        // Test 16 - check video border
+        // Test 10 - check video position
+        this.node.execute(async () => {
+            let videoCoords = await this.page.evaluate(async () => {
+                let video = document.getElementsByTagName('video')[0];
+                return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
+            });
+            return videoCoords[0] === 90 && videoCoords[1] === 177 ?
+                correct() :
+                wrong(`Check position of video element.`);
+        }),
+        // Test 11 - check video poster and controls
+        this.page.execute(() => {
+            return this.video[0].controls && this.video[0].poster ?
+                correct() :
+                wrong(`Check if you have controls enabled for the video element and if a poster has been added.`)
+        }),
+        // Test 12 - check video border
         this.page.execute(() => {
             let videoStyles = window.getComputedStyle(this.video[0]);
 
@@ -127,16 +102,16 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check border of your video tag.`)
         }),
-        // Test 17 - check video width
-        this.page.execute(() => {
-            //TODO
-            return correct();
-        }),
-        // Test 18 - check video poster and controls
-        this.page.execute(() => {
-            return this.video[0].controls && this.video[0].poster ?
+        // Test 13 - check video width and height
+        this.node.execute(async () => {
+            let videoWidth = await this.page.evaluate(async () => {
+                let video = document.getElementsByTagName('video')[0];
+                return [video.getBoundingClientRect().width, video.getBoundingClientRect().height];
+            });
+
+            return videoWidth[0] === 828 && Math.round(videoWidth[1]) === 500 ?
                 correct() :
-                wrong(`Check if you have controls enabled for the video element and if a poster has been added.`)
+                wrong(`Check size of video element.`);
         }),
     ]
 
