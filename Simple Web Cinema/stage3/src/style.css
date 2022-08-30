@@ -144,7 +144,7 @@ button:hover {
     margin-top: 153px;
 }
 
-#actors-header {
+.section-header {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 32px;
@@ -170,7 +170,7 @@ button:hover {
 }
 
 #actors-list article div {
-    line-height: 40px;
+    line-height: 36px;
     font-size: 15px;
     padding-left: 10px;
 }

@@ -122,10 +122,16 @@ class Test extends StageTest {
         // Test 13 - check rating position
         this.node.execute(async () => {
             let ratingCoords = await this.page.evaluate(async () => {
-                let ratingEl = document.getElementsByClassName('rating')[0];
-                return [ratingEl.getBoundingClientRect().x, ratingEl.getBoundingClientRect().y];
+                let ratingEl = document.querySelector('.rating').getBoundingClientRect();
+                let nameEl = document.querySelector('.name').getBoundingClientRect();
+
+                let ratingLeft = ratingEl.x;
+                let nameRight = nameEl.x + nameEl.width;
+
+                return [ratingLeft - nameRight, ratingEl.y];
             });
-            return Math.abs(ratingCoords[0]- 1086) < 15 && ratingCoords[1] === 187 ?
+
+            return ratingCoords[0] === 20 && ratingCoords[1] === 187 ?
                 correct() :
                 wrong(`Check position of name element.`);
         }),
@@ -299,6 +305,12 @@ class Test extends StageTest {
             return this.tableTdStyles.height === '45px' ?
                 correct() :
                 wrong(`Please, check height of table cell.`)
+        }),
+        // Test 34 - check video src
+        this.page.execute(() => {
+            return this.video[0].src ?
+                correct() :
+                wrong(`Please, add src in your player.`)
         }),
 
     ]
