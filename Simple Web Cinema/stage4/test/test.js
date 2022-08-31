@@ -2,6 +2,14 @@ import path from 'path';
 const pagePath = path.join(import.meta.url, '../../src/index.html');
 import {StageTest, correct, wrong} from 'hs-test-web';
 
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
 class Test extends StageTest {
 
     page = this.getPage(pagePath)
@@ -80,27 +88,32 @@ class Test extends StageTest {
         }),
         //Test 9 - check section-header
         this.page.execute(() => {
-            this.actorsHeader = document.querySelector('.section-header');
+            this.actorsHeader = document.querySelectorAll('.section-header');
 
-            return this.actorsHeader ?
+            return this.actorsHeader.length === 2 ?
                 correct() :
-                wrong(`Your page should contain a actors-header element.`)
+                wrong(`Your page should contain 2 .section-header elements.`)
         }),
         //Test 10 - check font section-header //TODO
         this.page.execute(() => {
-            let actorsHeaderStyles = window.getComputedStyle(this.actorsHeader);
+            let actorsHeaderStyles = window.getComputedStyle(this.actorsHeader[0]);
+            let reviewsHeaderStyles = window.getComputedStyle(this.actorsHeader[1]);
             return actorsHeaderStyles.fontSize === '32px' && actorsHeaderStyles.fontWeight === '700' &&
-            actorsHeaderStyles.fontFamily.includes('Montserrat') ?
+                actorsHeaderStyles.fontFamily.includes('Montserrat') && reviewsHeaderStyles.fontSize === "32px" &&
+                reviewsHeaderStyles.fontWeight === '700' && reviewsHeaderStyles.fontFamily.includes('Montserrat')?
                 correct() :
-                wrong(`Check font of actors-header element.`)
+                wrong(`Check font of .section-header elements.`)
         }),
-        //Test 11 - check position section-header //TODO
+        //Test 11 - check position section-header
         this.node.execute(async () => {
             let ahCoords = await this.page.evaluate(async () => {
-                let ahObj = document.getElementsByClassName('section-header')[0];
-                return [ahObj.getBoundingClientRect().x, ahObj.getBoundingClientRect().y];
+                let actors = document.getElementsByClassName('section-header')[0];
+                let reviews = document.getElementsByClassName('section-header')[1];
+                return [actors.getBoundingClientRect().x, actors.getBoundingClientRect().y,
+                    reviews.getBoundingClientRect().x, reviews.getBoundingClientRect().y];
             });
-            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 825) < 10 ?
+            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 825) < 10 &&
+            ahCoords[2] === 90 && Math.abs(ahCoords[3] - 1310) < 10 ?
                 correct() :
                 wrong(`Check position of actors-header element.`);
         }),
@@ -123,7 +136,33 @@ class Test extends StageTest {
                 wrong(`Check position of first article element.`);
         }),
 
-        // TODO
+        // Test 14 - check reviews-list article
+        // Test 14 - check position of first reviews-list article
+        // Test 15 - check position of second reviews-list article
+        // Test 16 - check size of first reviews-list article
+        // Test 17 - check position of first reviews-list article span
+        // Test 18 - check position of first reviews-list article h1
+        // Test 19 - check position of first reviews-list article p
+        // Test 20 - check fonts of all elements of article
+
+        // Test 21 - check position of first reviews-list article grade
+        // Test 22 - check position of second reviews-list article grade
+        // Test 23 - check background of first reviews-list article grade
+        // Test 24 - check fonts of first reviews-list article grade
+        // Test 25 - check size of first reviews-list article grade
+        // Test 26 - check position inside first reviews-list article grade
+
+        //Test 27 - check click on reviews-button
+        this.node.execute(async () => {
+            const reviewsButton = await this.page.findAllBySelector('button');
+            await reviewsButton[1].click();
+            let scrollTop = await this.page.evaluate(async () => {
+                return document.querySelector('#reviews-section').getBoundingClientRect().y;
+            });
+            return  Math.round(scrollTop) === 0 ?
+                correct() :
+                wrong(`Make sure you don't forget to add a scroll to the reviews section when you click on the "Reviews" button`);
+        }),
     ]
 
 }

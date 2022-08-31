@@ -84,7 +84,7 @@ class Test extends StageTest {
 
             return this.actorsHeader ?
                 correct() :
-                wrong(`Your page should contain a actors-header element.`)
+                wrong(`Your page should contain a .section-header element.`)
         }),
         //Test 10 - check font section-header
         this.page.execute(() => {
@@ -92,7 +92,7 @@ class Test extends StageTest {
             return actorsHeaderStyles.fontSize === '32px' && actorsHeaderStyles.fontWeight === '700' &&
                 actorsHeaderStyles.fontFamily.includes('Montserrat') ?
                 correct() :
-                wrong(`Check font of actors-header element.`)
+                wrong(`Check font of .section-header element.`)
         }),
         //Test 11 - check position section-header
         this.node.execute(async () => {
@@ -102,7 +102,7 @@ class Test extends StageTest {
             });
             return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 825) < 10 ?
                 correct() :
-                wrong(`Check position of actors-header element.`);
+                wrong(`Check position of .section-header element.`);
         }),
         //Test 12 - check article
         this.page.execute(() => {
