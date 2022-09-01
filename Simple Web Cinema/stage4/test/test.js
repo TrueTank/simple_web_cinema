@@ -137,22 +137,128 @@ class Test extends StageTest {
         }),
 
         // Test 14 - check reviews-list article
-        // Test 14 - check position of first reviews-list article
-        // Test 15 - check position of second reviews-list article
-        // Test 16 - check size of first reviews-list article
-        // Test 17 - check position of first reviews-list article span
-        // Test 18 - check position of first reviews-list article h1
-        // Test 19 - check position of first reviews-list article p
-        // Test 20 - check fonts of all elements of article
+        this.page.execute(() => {
+            this.articleObj = document.querySelectorAll('#reviews-list article');
+            this.gradeObj = document.querySelectorAll('#reviews-list article .grade');
+            return this.articleObj.length >= 3 && this.gradeObj.length >= 3 ?
+                correct() :
+                wrong(`Your page must contain at least 3 reviews with 3 grades.`)
+        }),
+        this.page.execute(() => {
+            let styles = window.getComputedStyle(this.articleObj[0]);
 
-        // Test 21 - check position of first reviews-list article grade
-        // Test 22 - check position of second reviews-list article grade
-        // Test 23 - check background of first reviews-list article grade
-        // Test 24 - check fonts of first reviews-list article grade
-        // Test 25 - check size of first reviews-list article grade
-        // Test 26 - check position inside first reviews-list article grade
+            return styles.border === "1px solid rgb(0, 0, 0)" && styles.borderRadius === "10px" ?
+                correct() :
+                wrong(`Please, check borders of review article.`)
+        }),
+        // Test 15 - check position of first reviews-list article
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let obj = document.querySelector('#reviews-list article');
+                return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
+            });
+            return coords[0] === 90 && Math.abs(coords[1] - 1390) < 5 ?
+                correct() :
+                wrong(`Please, check position of your first review.`)
+        }),
+        // Test 16 - check position of second reviews-list article
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let obj = document.querySelectorAll('#reviews-list article')[1];
+                let obj0 = document.querySelectorAll('#reviews-list article')[0];
+                return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y, obj0.getBoundingClientRect().y, obj0.getBoundingClientRect().height];
+            });
+            return coords[0] === 90 && coords[1] - coords[2] - coords[3] === 40 ?
+                correct() :
+                wrong(`Please, check position of your first review.`)
+        }),
+        // Test 17 - check size of first reviews-list article
+        this.node.execute(async () => {
+            let width = await this.page.evaluate(async () => {
+                let obj = document.querySelectorAll('#reviews-list article')[0];
+                return obj.getBoundingClientRect().width
+            });
+            return width === 1018 ?
+                correct() :
+                wrong(`Please check the width of the element with review.`)
+        }),
+        // Test 18 - check position of first reviews-list article span
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let obj = document.querySelector('#reviews-list article .date');
+                return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
+            });
+            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1435) < 5 ?
+                correct() :
+                wrong(`Please, check position of your first .date element.`)
+        }),
+        // Test 19 - check position of first reviews-list article h1
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let obj = document.querySelector('#reviews-list article h1');
+                return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
+            });
+            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1475) < 5 ?
+                correct() :
+                wrong(`Please, check position of your first h1 element of article.`)
+        }),
+        // Test 20 - check position of first reviews-list article p
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let obj = document.querySelector('#reviews-list article p');
+                return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
+            });
+            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1525) < 5 ?
+                correct() :
+                wrong(`Please, check position of your first h1 element of article.`)
+        }),
+        // Test 21 - check fonts of all elements of article
+        this.page.execute(() => {
+            let date = window.getComputedStyle(document.querySelector('#reviews-list article .date'));
+            let h1Obj = window.getComputedStyle(document.querySelector('#reviews-list article h1'));
+            let pObj = window.getComputedStyle(document.querySelector('#reviews-list article p'));
 
-        //Test 27 - check click on reviews-button
+            let dateOk = date.fontWeight === '300' && date.fontSize === '14px' && date.opacity === '0.6';
+            let h1Ok = h1Obj.fontWeight === '600' && h1Obj.fontSize === '24px';
+            let pOk = pObj.fontWeight === '400' && pObj.fontSize === '18px';
+
+
+            return dateOk && h1Ok && pOk ?
+                correct() :
+                wrong(`Check fonts of all elements of review article.`)
+        }),
+
+        // Test 22 - check position of first reviews-list article grade
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let obj = document.querySelector('#reviews-list article .grade');
+                return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
+            });
+            return Math.abs(coords[0] - 995) < 5 && Math.abs(coords[1] - 1390) < 5 ?
+                correct() :
+                wrong(`Please, check position of your first h1 element of article.`)
+        }),
+        // Test 24 - check background and fonts of first reviews-list article grade
+        this.page.execute(() => {
+            let styles = window.getComputedStyle(this.gradeObj[0]);
+            let spanStyle = window.getComputedStyle(document.querySelector('#reviews-list article .grade span'));
+            return styles.backgroundImage && styles.fontSize === '24px' && styles.fontWeight === '500' &&
+                spanStyle.fontSize === '14px' && spanStyle.fontWeight === '300' ?
+                correct() :
+                wrong(`Check fonts and background of grade element in article.`)
+        }),
+        // Test 26 - check size of first reviews-list article grade
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let obj = document.querySelector('#reviews-list article .grade');
+                return [obj.getBoundingClientRect().width, obj.getBoundingClientRect().height];
+            });
+            return coords[0] === 72 && coords[1] === 93 ?
+                correct() :
+                wrong(`Please, check size of article grade.`)
+        }),
+
+        //Test 28 - check click on reviews-button
         this.node.execute(async () => {
             const reviewsButton = await this.page.findAllBySelector('button');
             await reviewsButton[1].click();

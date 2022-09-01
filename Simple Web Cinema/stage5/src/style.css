@@ -198,11 +198,11 @@ button:hover {
     display: flex;
 }
 
-.reviews-list {
+#reviews-list {
     flex-direction: column;
 }
 
-.reviews-list article {
+#reviews-list article {
     background: #F2EBFF;
     border: 1px solid #000000;
     border-radius: 10px;
@@ -213,20 +213,20 @@ button:hover {
     position: relative;
 }
 
-.reviews-list article span {
+#reviews-list article span {
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
     opacity: 0.6;
 }
 
-.reviews-list article h1 {
+#reviews-list article h1 {
     font-weight: 600;
     font-size: 24px;
     line-height: 29px;
 }
 
-.reviews-list article p {
+#reviews-list article p {
     font-weight: 400;
     font-size: 18px;
     line-height: 26px;
