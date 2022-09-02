@@ -277,7 +277,6 @@ article .grade.negative {
 }
 
 .reviews-number {
-    font-style: normal;
     font-weight: 500;
     font-size: 30px;
 }
@@ -291,14 +290,12 @@ article .grade.negative {
 }
 
 .scores .caption {
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
 }
 
 .reviews-number span {
     display: inline-block;
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;

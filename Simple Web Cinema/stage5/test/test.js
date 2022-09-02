@@ -2,6 +2,14 @@ import path from 'path';
 const pagePath = path.join(import.meta.url, '../../src/index.html');
 import {StageTest, correct, wrong} from 'hs-test-web';
 
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
 class Test extends StageTest {
 
     page = this.getPage(pagePath)
@@ -157,15 +165,143 @@ class Test extends StageTest {
                 wrong(`Please check the width of the element with review.`)
         }),
 
-        // Test 17 - check animation of button
-        // Test 18 - check animation of actor
+        // Test 17 - check transform-animation of button
+        this.node.execute(async () => {
+            const button = await this.page.findBySelector('button');
+            let coords1 = await this.page.evaluate(async () => {
+                let button = document.querySelector('button').getBoundingClientRect();
+                return [button.x, button.y];
+            });
+
+            const isEventHappened = button.waitForEvent("animationend", 2000);
+            let time = Date.now();
+            let time1 = Date.now();
+            await button.hover();
+            let flag = await isEventHappened === true;
+            console.log(flag)
+            console.log(isEventHappened)
+            while(!flag) {
+                time1 = Date.now();
+                flag = await isEventHappened === true;
+                console.log(flag)
+                console.log(isEventHappened)
+            }
+            let coords2 = await this.page.evaluate(async () => {
+                let button = document.querySelector('button').getBoundingClientRect();
+                return [button.x, button.y];
+            });
+
+
+            console.log(coords1)
+            console.log(coords2)
+            console.log(isEventHappened)
+            console.log(time1 - time)
+            return coords2[0] - coords1[0] === 10 && coords2[1] - coords1[1] === -10 ?
+                correct() :
+                wrong(`Please check transform-animation after button hovering.`)
+        }),
+        // Test 18 - check time of transform-animation of button
+        this.node.execute(async () => {
+            const b = await this.page.findAllBySelector('button');
+            let button = b[1];
+            let coords1 = await this.page.evaluate(async () => {
+                let button = document.querySelector('button').getBoundingClientRect();
+                return [button.x, button.y];
+            });
+
+            await button.hover();
+            let coords2 = await this.page.evaluate(async () => {
+                let button = document.querySelector('button').getBoundingClientRect();
+                return [button.x, button.y];
+            });
+
+
+            return coords2[0] - coords1[0] < 10 && coords2[1] - coords1[1] > -10 ?
+                correct() :
+                wrong(`Please check transition of your transform-animation after button hovering.`)
+        }),
+        // Test 19 - check box-shadow of button
+        this.node.execute(async () => {
+            const button = await this.page.findBySelector('button');
+            await button.hover();
+            sleep(1000);
+            const buttonStyles = await button.getComputedStyles();
+            console.log(buttonStyles.boxShadow)
+            return buttonStyles.boxShadow ?
+                correct() :
+                wrong(`Please check transform-animation after button hovering.`)
+        }),
+        // Test 19 - check animation of actor
+
 
         // Test 20 - check summary
-        // Test 21 - check fonts of summary
-        // Test 22 - check internal positions of summary
-        // Test 23 - check background of summary
-        
+        this.page.execute(() => {
+            this.summary = document.querySelector('.reviews-summary');
+
+            return this.summary ?
+                correct() :
+                wrong(`Your page should contain .reviews-summary element.`)
+        }),
+        // Test 21 - check border of summary
+        this.page.execute(() => {
+            let borderLeft = window.getComputedStyle(this.summary).borderLeft;
+            return  borderLeft === '1px solid rgb(0, 0, 0)' ?
+                correct() :
+                wrong(`Please, check left border of your summary element.`)
+        }),
+        // Test 22 - check fonts of summary
+        this.page.execute(() => {
+            let rn = window.getComputedStyle(document.querySelector('.reviews-summary .reviews-number'));
+            let rnp = window.getComputedStyle(document.querySelector('.reviews-summary .reviews-number.positive'));
+            let rnn = window.getComputedStyle(document.querySelector('.reviews-summary .reviews-number.negative'));
+            let rns = window.getComputedStyle(document.querySelector('.reviews-summary .reviews-number span'));
+
+            let caption = window.getComputedStyle(document.querySelector('.reviews-summary .caption'));
+
+            let flag = rn.fontSize === '30px' && rn.fontWeight === '500' && rn.color === 'rgb(0, 0, 0)' &&
+            rnp.color === 'rgb(48, 207, 127)' && rnn.color === 'rgb(207, 48, 48)' &&
+            rns.color === 'rgb(0, 0, 0)' && rns.fontSize === '16px' && rns.fontWeight === '400' && rns.opacity === '0.4' &&
+            caption.fontSize === '16px' && caption.fontWeight === '400';
+
+            return  flag ?
+                correct() :
+                wrong(`Please, check fonts of your summary element and child elements of it.`)
+        }),
+        // Test 23 - check internal positions of summary
+        this.node.execute(async () => {
+            let coords = await this.page.evaluate(async () => {
+                let rn1 = document.querySelectorAll('.reviews-summary .reviews-number')[0].getBoundingClientRect();
+                let rn2 = document.querySelectorAll('.reviews-summary .reviews-number')[1].getBoundingClientRect();
+
+                let caption1 = document.querySelectorAll('.reviews-summary .caption')[0].getBoundingClientRect();
+                return [rn1.x, rn1.y, rn2.x, rn2.y, caption1.x, caption1.y];
+            });
+
+            return coords[0] === 1269 && coords[2] === coords[0] &&
+                Math.abs(coords[1] - 1405) < 5 && Math.abs(coords[3] - 1493) < 5 &&
+                Math.abs(coords[5] - 1443) < 5 && coords[4] === coords[0]
+                ?
+                correct() :
+                wrong(`Please, check internal positions of your .review-summary element.`)
+        }),
+
         // Test 24 - check sticky position of summary
+        this.node.execute(async () => {
+            const reviews = await this.page.findBySelector('#reviews-list');
+            const styles = await reviews.getComputedStyles();
+            let height = styles.height.slice(0, -2);
+            await this.page.setViewport({width: 1440, height: Math.round(height)});
+            const positions = await this.page.evaluate(async () => {
+                let y1 = document.querySelector('.reviews-summary').getBoundingClientRect().y;
+                window.scrollTo(0, document.body.scrollHeight);
+                let y2 = document.querySelector('.reviews-summary').getBoundingClientRect().y;
+                return [y1, y2];
+            });
+
+            return Math.abs(positions[0] - 1391) < 5 && Math.abs(positions[1]) < 5 ?
+                correct() :
+                wrong('Your summary element should "stick" to the top of the page when you scroll down.');
+        })
     ]
 
 }
