@@ -9,7 +9,7 @@ class Test extends StageTest {
     tests = [
         // Test 1 - check main-title
         this.node.execute(async () => {
-            await this.page.setViewport({width: 1440, height: 740});
+            await this.page.setViewport({width: 1440, height: 2776});
             const title = await this.page.findBySelector('#main-title');
             return title ?
                 correct() :
@@ -86,7 +86,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page should contain 2 .section-header elements.`)
         }),
-        //Test 10 - check font section-header //TODO
+        //Test 10 - check font section-header
         this.page.execute(() => {
             let actorsHeaderStyles = window.getComputedStyle(this.actorsHeader[0]);
             let reviewsHeaderStyles = window.getComputedStyle(this.actorsHeader[1]);
@@ -136,6 +136,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page must contain at least 3 reviews with 3 grades.`)
         }),
+        // Test 15 - check reviews-list article border
         this.page.execute(() => {
             let styles = window.getComputedStyle(this.articleObj[0]);
 
@@ -143,7 +144,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check borders of review article.`)
         }),
-        // Test 15 - check position of first reviews-list article
+        // Test 16 - check position of first reviews-list article
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
                 let obj = document.querySelector('#reviews-list article');
@@ -252,6 +253,7 @@ class Test extends StageTest {
 
         //Test 28 - check click on reviews-button
         this.node.execute(async () => {
+            await this.page.setViewport({width: 1440, height: 1200});
             const reviewsButton = await this.page.findAllBySelector('button');
             await reviewsButton[1].click();
             let scrollTop = await this.page.evaluate(async () => {

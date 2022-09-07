@@ -9,7 +9,7 @@ class Test extends StageTest {
     tests = [
         // Test 1 - check main-title
         this.node.execute(async () => {
-            await this.page.setViewport({width: 1440, height: 740});
+            await this.page.setViewport({width: 1440, height: 1200});
             const title = await this.page.findBySelector('#main-title');
             return title ?
                 correct() :

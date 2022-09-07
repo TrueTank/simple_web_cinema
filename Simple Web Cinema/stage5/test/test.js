@@ -17,7 +17,7 @@ class Test extends StageTest {
     tests = [
         // Test 1 - check main-title
         this.node.execute(async () => {
-            await this.page.setViewport({width: 1440, height: 740});
+            await this.page.setViewport({width: 1440, height: 2776});
             const title = await this.page.findBySelector('#main-title');
             return title ?
                 correct() :
@@ -168,71 +168,45 @@ class Test extends StageTest {
         // Test 17 - check transform-animation of button
         this.node.execute(async () => {
             const button = await this.page.findBySelector('button');
-            let coords1 = await this.page.evaluate(async () => {
-                let button = document.querySelector('button').getBoundingClientRect();
-                return [button.x, button.y];
-            });
-
-            const isEventHappened = button.waitForEvent("animationend", 2000);
-            let time = Date.now();
-            let time1 = Date.now();
             await button.hover();
-            let flag = await isEventHappened === true;
-            console.log(flag)
-            console.log(isEventHappened)
-            while(!flag) {
-                time1 = Date.now();
-                flag = await isEventHappened === true;
-                console.log(flag)
-                console.log(isEventHappened)
-            }
-            let coords2 = await this.page.evaluate(async () => {
-                let button = document.querySelector('button').getBoundingClientRect();
-                return [button.x, button.y];
-            });
+            sleep(500);
+            const hoverButton = await this.page.findBySelector('button:hover');
 
+            const styles = await hoverButton.getComputedStyles();
 
-            console.log(coords1)
-            console.log(coords2)
-            console.log(isEventHappened)
-            console.log(time1 - time)
-            return coords2[0] - coords1[0] === 10 && coords2[1] - coords1[1] === -10 ?
+            return styles.transform === 'matrix(1, 0, 0, 1, 10, -10)' &&
+            styles.boxShadow === 'rgb(0, 0, 0) -10px 10px 0px 0px' ?
                 correct() :
-                wrong(`Please check transform-animation after button hovering.`)
+                wrong(`Please check transform- and box-shadow-animation after button hovering.`)
         }),
         // Test 18 - check time of transform-animation of button
         this.node.execute(async () => {
             const b = await this.page.findAllBySelector('button');
-            let button = b[1];
-            let coords1 = await this.page.evaluate(async () => {
-                let button = document.querySelector('button').getBoundingClientRect();
-                return [button.x, button.y];
-            });
-
+            const button = b[1];
             await button.hover();
-            let coords2 = await this.page.evaluate(async () => {
-                let button = document.querySelector('button').getBoundingClientRect();
-                return [button.x, button.y];
-            });
+            const hoverButton = await this.page.findBySelector('button:hover');
 
+            const styles = await hoverButton.getComputedStyles();
 
-            return coords2[0] - coords1[0] < 10 && coords2[1] - coords1[1] > -10 ?
+            return styles.transform !== 'matrix(1, 0, 0, 1, 10, -10)' &&
+            styles.boxShadow !== 'rgb(0, 0, 0) -10px 10px 0px 0px' ?
                 correct() :
-                wrong(`Please check transition of your transform-animation after button hovering.`)
-        }),
-        // Test 19 - check box-shadow of button
-        this.node.execute(async () => {
-            const button = await this.page.findBySelector('button');
-            await button.hover();
-            sleep(1000);
-            const buttonStyles = await button.getComputedStyles();
-            console.log(buttonStyles.boxShadow)
-            return buttonStyles.boxShadow ?
-                correct() :
-                wrong(`Please check transform-animation after button hovering.`)
+                wrong(`Please check time of animation after button hovering.`)
         }),
         // Test 19 - check animation of actor
+        this.node.execute(async () => {
+            const actor = await this.page.findBySelector('#actors-list article');
+            await actor.hover();
+            sleep(500);
+            const hoverButton = await this.page.findBySelector('#actors-list article:hover');
 
+            const styles = await hoverButton.getComputedStyles();
+
+            return styles.transform === 'matrix(1, 0, 0, 1, 10, -10)' &&
+            styles.boxShadow === 'rgb(0, 0, 0) -10px 10px 0px 0px' ?
+                correct() :
+                wrong(`Please check transform- and box-shadow-animation after actor hovering.`)
+        }),
 
         // Test 20 - check summary
         this.page.execute(() => {
@@ -270,16 +244,16 @@ class Test extends StageTest {
         // Test 23 - check internal positions of summary
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
+                let summary = document.querySelector('.reviews-summary').getBoundingClientRect();
                 let rn1 = document.querySelectorAll('.reviews-summary .reviews-number')[0].getBoundingClientRect();
                 let rn2 = document.querySelectorAll('.reviews-summary .reviews-number')[1].getBoundingClientRect();
 
                 let caption1 = document.querySelectorAll('.reviews-summary .caption')[0].getBoundingClientRect();
-                return [rn1.x, rn1.y, rn2.x, rn2.y, caption1.x, caption1.y];
+                return [rn1.x, rn1.y-summary.y, rn2.x, rn2.y-summary.y, caption1.x, caption1.y-summary.y];
             });
 
-            return coords[0] === 1269 && coords[2] === coords[0] &&
-                Math.abs(coords[1] - 1405) < 5 && Math.abs(coords[3] - 1493) < 5 &&
-                Math.abs(coords[5] - 1443) < 5 && coords[4] === coords[0]
+            return coords[0] === 1269 && coords[2] === coords[0] && coords[4] === coords[0] &&
+                coords[1] === 15 && coords[3] === 102 && coords[5] === 51
                 ?
                 correct() :
                 wrong(`Please, check internal positions of your .review-summary element.`)
@@ -289,7 +263,7 @@ class Test extends StageTest {
         this.node.execute(async () => {
             const reviews = await this.page.findBySelector('#reviews-list');
             const styles = await reviews.getComputedStyles();
-            let height = styles.height.slice(0, -2);
+            let height = parseInt(styles.height.slice(0, -2)) / 2;
             await this.page.setViewport({width: 1440, height: Math.round(height)});
             const positions = await this.page.evaluate(async () => {
                 let y1 = document.querySelector('.reviews-summary').getBoundingClientRect().y;
