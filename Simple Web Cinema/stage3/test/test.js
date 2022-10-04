@@ -29,7 +29,7 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 177 ?
+            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
                 correct() :
                 wrong(`Check position of video element.`);
         }),
@@ -73,8 +73,8 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 625 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 625 ?
+            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
+            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
@@ -100,7 +100,7 @@ class Test extends StageTest {
                 let ahObj = document.getElementsByClassName('section-header')[0];
                 return [ahObj.getBoundingClientRect().x, ahObj.getBoundingClientRect().y];
             });
-            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 825) < 10 ?
+            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 785) < 10 ?
                 correct() :
                 wrong(`Check position of .section-header element.`);
         }),
@@ -118,7 +118,7 @@ class Test extends StageTest {
                 let arObj = document.querySelector('#actors-list article');
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return arCoords[0] === 90 && Math.abs(arCoords[1] - 905) < 10 ?
+            return arCoords[0] === 90 && Math.abs(arCoords[1] - 865) < 10 ?
                 correct() :
                 wrong(`Check position of first article element.`);
         }),
@@ -128,7 +128,7 @@ class Test extends StageTest {
                 let arObj = document.querySelectorAll('#actors-list article')[2];
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return Math.abs(arCoords[0] - 460) < 5 && Math.abs(arCoords[1] - 905) < 10 ?
+            return Math.abs(arCoords[0] - 460) < 5 && Math.abs(arCoords[1] - 865) < 10 ?
                 correct() :
                 wrong(`Check position of third article element.`);
         }),
@@ -188,7 +188,7 @@ class Test extends StageTest {
                 let arObj = artObjs[4];
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return Math.abs(arCoords[0] - 643) < 5 && Math.abs(arCoords[1] - 905) < 10 ?
+            return Math.abs(arCoords[0] - 643) < 5 && Math.abs(arCoords[1] - 865) < 10 ?
                 correct() :
                 wrong(`Check position of your actors after removing 2 actors.`);
         }),

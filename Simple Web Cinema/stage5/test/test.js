@@ -37,7 +37,7 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 177 ?
+            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
                 correct() :
                 wrong(`Check position of video element.`);
         }),
@@ -81,8 +81,8 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 625 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 625 ?
+            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
+            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
@@ -112,8 +112,8 @@ class Test extends StageTest {
                 return [actors.getBoundingClientRect().x, actors.getBoundingClientRect().y,
                     reviews.getBoundingClientRect().x, reviews.getBoundingClientRect().y];
             });
-            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 825) < 10 &&
-            ahCoords[2] === 90 && Math.abs(ahCoords[3] - 1310) < 10 ?
+            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 785) < 10 &&
+            ahCoords[2] === 90 && Math.abs(ahCoords[3] - 1270) < 10 ?
                 correct() :
                 wrong(`Check position of actors-header element.`);
         }),
@@ -131,7 +131,7 @@ class Test extends StageTest {
                 let arObj = document.querySelector('#actors-list article');
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return arCoords[0] === 90 && Math.abs(arCoords[1] - 905) < 10 ?
+            return arCoords[0] === 90 && Math.abs(arCoords[1] - 865) < 10 ?
                 correct() :
                 wrong(`Check position of first article element.`);
         }),
@@ -150,7 +150,7 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return coords[0] === 90 && Math.abs(coords[1] - 1390) < 5 ?
+            return coords[0] === 90 && Math.abs(coords[1] - 1348) < 5 ?
                 correct() :
                 wrong(`Please, check position of your first review.`)
         }),
@@ -271,8 +271,7 @@ class Test extends StageTest {
                 let y2 = document.querySelector('.reviews-summary').getBoundingClientRect().y;
                 return [y1, y2];
             });
-
-            return Math.abs(positions[0] - 1391) < 5 && Math.abs(positions[1]) < 5 ?
+            return Math.abs(positions[0] - 1348) < 5 && Math.abs(positions[1]) < 5 ?
                 correct() :
                 wrong('Your summary element should "stick" to the top of the page when you scroll down.');
         })

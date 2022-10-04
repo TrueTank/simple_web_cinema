@@ -58,7 +58,7 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 177 ?
+            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
                 correct() :
                 wrong(`Check position of video element.`);
         }),
@@ -69,7 +69,7 @@ class Test extends StageTest {
                 return [video.getBoundingClientRect().width, video.getBoundingClientRect().height];
             });
 
-            return videoWidth[0] === 828 && Math.round(videoWidth[1]) === 500 ?
+            return videoWidth[0] === 828 && Math.abs(videoWidth[1] - 500) < 2 ?
                 correct() :
                 wrong(`Check size of video element.`);
         }),
@@ -86,7 +86,7 @@ class Test extends StageTest {
         this.page.execute(() => {
             let nameStyles = window.getComputedStyle(this.nameEl[0]);
 
-            return nameStyles.fontWeight === "900" && nameStyles.fontSize === "40px" &&
+            return nameStyles.fontWeight === "700" && nameStyles.fontSize === "40px" &&
                 nameStyles.fontFamily.includes('Montserrat') && nameStyles.color === "rgb(0, 0, 0)" ?
                 correct() :
                 wrong(`Please, check font of name element.`)
@@ -97,7 +97,7 @@ class Test extends StageTest {
                 let nameEl = document.getElementsByClassName('name')[0];
                 return [nameEl.getBoundingClientRect().x, nameEl.getBoundingClientRect().y];
             });
-            return nameCoords[0] === 955 && nameCoords[1] === 177 ?
+            return nameCoords[0] === 955 && nameCoords[1] === 134 ?
                 correct() :
                 wrong(`Check position of name element.`);
         }),
@@ -119,7 +119,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check font of rating element.`)
         }),
-        // Test 13 - check rating position
+        // Test 13 - check rating and name positions
         this.node.execute(async () => {
             let ratingCoords = await this.page.evaluate(async () => {
                 let ratingEl = document.querySelector('.rating').getBoundingClientRect();
@@ -130,10 +130,9 @@ class Test extends StageTest {
 
                 return [ratingLeft - nameRight, ratingEl.y];
             });
-
-            return ratingCoords[0] === 20 && ratingCoords[1] === 187 ?
+            return ratingCoords[0] === 20 && ratingCoords[1] === 144 ?
                 correct() :
-                wrong(`Check position of name element.`);
+                wrong(`Check position of name and rating elements.`);
         }),
         // Test 14 - check rating border
         this.page.execute(() => {
@@ -171,12 +170,12 @@ class Test extends StageTest {
                 let subInfoEl = document.getElementsByClassName('sub-info')[0];
                 return [subInfoEl.getBoundingClientRect().x, subInfoEl.getBoundingClientRect().y];
             });
-            return subInfoCoords[0] === 955 && subInfoCoords[1] === 236 ?
+            return subInfoCoords[0] === 955 && subInfoCoords[1] === 193 ?
                 correct() :
                 wrong(`Check position of sub-info element.`);
         }),
 
-        // Test 20 - check description
+        // Test 19 - check description
         this.page.execute(() => {
             this.description = document.getElementsByClassName('description');
 
@@ -184,7 +183,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page should contain a description element.`)
         }),
-        // Test 21 - check description font
+        // Test 20 - check description font
         this.page.execute(() => {
             this.descriptionStyles = window.getComputedStyle(this.description[0]);
 
@@ -193,18 +192,18 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check font of sub-info element.`)
         }),
-        // Test 22 - check description position
+        // Test 21 - check description position
         this.node.execute(async () => {
             let descriptionCoords = await this.page.evaluate(async () => {
                 let descriptionEl = document.getElementsByClassName('description')[0];
                 return [descriptionEl.getBoundingClientRect().x, descriptionEl.getBoundingClientRect().y];
             });
-            return descriptionCoords[0] === 955 && descriptionCoords[1] === 283 ?
+            return descriptionCoords[0] === 955 && descriptionCoords[1] === 240 ?
                 correct() :
                 wrong(`Check position of description element.`);
         }),
 
-        // Test 23 - check table
+        // Test 22 - check table
         this.page.execute(() => {
             this.table = document.getElementsByTagName('table');
 
@@ -212,7 +211,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page should contain a table tag.`)
         }),
-        // Test 24 - check table font
+        // Test 23 - check table font
         this.page.execute(() => {
             this.tableStyles = window.getComputedStyle(this.table[0]);
 
@@ -221,17 +220,17 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check font of table element.`)
         }),
-        // Test 25 - check table position
+        // Test 24 - check table position
         this.node.execute(async () => {
             let tableCoords = await this.page.evaluate(async () => {
                 let tableEl = document.getElementsByTagName('table')[0];
                 return [tableEl.getBoundingClientRect().x, tableEl.getBoundingClientRect().y];
             });
-            return tableCoords[0] === 955 && tableCoords[1] === 402 ?
+            return tableCoords[0] === 955 && tableCoords[1] === 359 ?
                 correct() :
                 wrong(`Check position of table element.`);
         }),
-        // Test 26 - check table headers styles
+        // Test 25 - check table headers styles
         this.page.execute(() => {
             let evenTds = document.querySelectorAll('th');
 
@@ -247,7 +246,7 @@ class Test extends StageTest {
                 wrong(`Please, check font of header's column in table.`)
         }),
 
-        // Test 27 - check buttons
+        // Test 26 - check buttons
         this.page.execute(() => {
             this.buttons = document.getElementsByTagName('button');
 
@@ -255,7 +254,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page should contain 2 button elements.`)
         }),
-        // Test 28 - check buttons font
+        // Test 27 - check buttons font
         this.page.execute(() => {
             this.buttonStyles = window.getComputedStyle(this.buttons[0]);
 
@@ -264,7 +263,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check font of button element.`)
         }),
-        // Test 29 - check buttons position
+        // Test 28 - check buttons position
         this.node.execute(async () => {
             let buttonCoords = await this.page.evaluate(async () => {
                 let buttonEl1 = document.getElementsByTagName('button')[0];
@@ -272,24 +271,24 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 625 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 625 ?
+            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
+            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
-        // Test 30 - check buttons border
+        // Test 29 - check buttons border
         this.page.execute(() => {
             return this.buttonStyles.border === "1px solid rgb(130, 45, 180)" && this.buttonStyles.borderRadius === "8px" ?
                 correct() :
                 wrong(`Please, check border of button element.`)
         }),
-        // Test 31 - check buttons size
+        // Test 30 - check buttons size
         this.page.execute(() => {
             return this.buttonStyles.width === "180px" && this.buttonStyles.height === "50px" ?
                 correct() :
                 wrong(`Please, check size of button element.`)
         }),
-        // Test 32 - check hover buttons
+        // Test 31 - check hover buttons
         this.node.execute(async () =>{
             const button = await this.page.findBySelector('button');
             await button.hover();
@@ -298,7 +297,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Check hover-effect of buttons.`);
         }),
-        // Test 33 - check height of table rows
+        // Test 32 - check height of table rows
         this.page.execute(() => {
             this.tableTdStyles = window.getComputedStyle(document.getElementsByTagName('td')[0]);
 
@@ -306,7 +305,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check height of table cell.`)
         }),
-        // Test 34 - check video src
+        // Test 33 - check video src
         this.page.execute(() => {
             return this.video[0].src ?
                 correct() :

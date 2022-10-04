@@ -30,7 +30,7 @@ header {
 main {
     max-width: 1260px;
     height: 499px;
-    margin: 135px 90px 107px 90px;
+    margin: 92px 90px 107px 90px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -61,7 +61,7 @@ aside {
 }
 
 .name {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 40px;
     line-height: 49px;
 }

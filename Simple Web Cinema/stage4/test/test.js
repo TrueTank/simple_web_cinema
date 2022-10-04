@@ -29,7 +29,7 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 177 ?
+            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
                 correct() :
                 wrong(`Check position of video element.`);
         }),
@@ -73,8 +73,8 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 625 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 625 ?
+            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
+            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
@@ -104,8 +104,8 @@ class Test extends StageTest {
                 return [actors.getBoundingClientRect().x, actors.getBoundingClientRect().y,
                     reviews.getBoundingClientRect().x, reviews.getBoundingClientRect().y];
             });
-            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 825) < 10 &&
-            ahCoords[2] === 90 && Math.abs(ahCoords[3] - 1310) < 10 ?
+            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 785) < 10 &&
+            ahCoords[2] === 90 && Math.abs(ahCoords[3] - 1270) < 10 ?
                 correct() :
                 wrong(`Check position of actors-header element.`);
         }),
@@ -123,7 +123,7 @@ class Test extends StageTest {
                 let arObj = document.querySelector('#actors-list article');
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return arCoords[0] === 90 && Math.abs(arCoords[1] - 905) < 10 ?
+            return arCoords[0] === 90 && Math.abs(arCoords[1] - 865) < 10 ?
                 correct() :
                 wrong(`Check position of first article element.`);
         }),
@@ -150,11 +150,11 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return coords[0] === 90 && Math.abs(coords[1] - 1390) < 5 ?
+            return coords[0] === 90 && Math.abs(coords[1] - 1348) < 5 ?
                 correct() :
                 wrong(`Please, check position of your first review.`)
         }),
-        // Test 16 - check position of second reviews-list article
+        // Test 17 - check position of second reviews-list article
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
                 let obj = document.querySelectorAll('#reviews-list article')[1];
@@ -165,7 +165,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check position of your first review.`)
         }),
-        // Test 17 - check size of first reviews-list article
+        // Test 18 - check size of first reviews-list article
         this.node.execute(async () => {
             let width = await this.page.evaluate(async () => {
                 let obj = document.querySelectorAll('#reviews-list article')[0];
@@ -175,37 +175,37 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please check the width of the element with review.`)
         }),
-        // Test 18 - check position of first reviews-list article span
+        // Test 19 - check position of first reviews-list article span
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
                 let obj = document.querySelector('#reviews-list article .date');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1435) < 5 ?
+            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1390) < 5 ?
                 correct() :
                 wrong(`Please, check position of your first .date element.`)
         }),
-        // Test 19 - check position of first reviews-list article h1
+        // Test 20 - check position of first reviews-list article h1
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
                 let obj = document.querySelector('#reviews-list article h1');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1475) < 5 ?
+            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1431) < 5 ?
                 correct() :
                 wrong(`Please, check position of your first h1 element of article.`)
         }),
-        // Test 20 - check position of first reviews-list article p
+        // Test 21 - check position of first reviews-list article p
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
                 let obj = document.querySelector('#reviews-list article p');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1525) < 5 ?
+            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1485) < 5 ?
                 correct() :
                 wrong(`Please, check position of your first h1 element of article.`)
         }),
-        // Test 21 - check fonts of all elements of article
+        // Test 22 - check fonts of all elements of article
         this.page.execute(() => {
             let date = window.getComputedStyle(document.querySelector('#reviews-list article .date'));
             let h1Obj = window.getComputedStyle(document.querySelector('#reviews-list article h1'));
@@ -221,13 +221,13 @@ class Test extends StageTest {
                 wrong(`Check fonts of all elements of review article.`)
         }),
 
-        // Test 22 - check position of first reviews-list article grade
+        // Test 23 - check position of first reviews-list article grade
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
                 let obj = document.querySelector('#reviews-list article .grade');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 995) < 5 && Math.abs(coords[1] - 1390) < 5 ?
+            return Math.abs(coords[0] - 995) < 5 && Math.abs(coords[1] - 1348) < 5 ?
                 correct() :
                 wrong(`Please, check position of your first h1 element of article.`)
         }),
@@ -240,7 +240,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Check fonts and background of grade element in article.`)
         }),
-        // Test 26 - check size of first reviews-list article grade
+        // Test 25 - check size of first reviews-list article grade
         this.node.execute(async () => {
             let coords = await this.page.evaluate(async () => {
                 let obj = document.querySelector('#reviews-list article .grade');
@@ -251,7 +251,7 @@ class Test extends StageTest {
                 wrong(`Please, check size of article grade.`)
         }),
 
-        //Test 28 - check click on reviews-button
+        //Test 26 - check click on reviews-button
         this.node.execute(async () => {
             await this.page.setViewport({width: 1440, height: 1200});
             const reviewsButton = await this.page.findAllBySelector('button');

@@ -50,7 +50,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Check background-color of body.`)
         }),
-        // Test 7 - check login-button font
+        // Test 6 - check login-button font
         this.page.execute(() => {
             let loginStyles = window.getComputedStyle(this.loginButton);
 
@@ -59,7 +59,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Check your login-button element font size, weight, family and opacity (we expect that you have connected the font Inter using GoogleFonts).`)
         }),
-        // Test 8 - check login position
+        // Test 7 - check login position
         this.node.execute(async () => {
             let loginCoords = await this.page.evaluate(async () => {
                 let loginObj = document.getElementById('login-button');
@@ -70,7 +70,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Check float and position of login-button.`);
         }),
-        // Test 9 - check video
+        // Test 8 - check video
         this.page.execute(() => {
             this.video = document.getElementsByTagName('video');
 
@@ -78,23 +78,23 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Your page should contain a video tag.`)
         }),
-        // Test 10 - check video position
+        // Test 9 - check video position
         this.node.execute(async () => {
             let videoCoords = await this.page.evaluate(async () => {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 177 ?
+            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
                 correct() :
                 wrong(`Check position of video element.`);
         }),
-        // Test 11 - check video poster and controls
+        // Test 10 - check video poster and controls
         this.page.execute(() => {
             return this.video[0].controls && this.video[0].poster ?
                 correct() :
                 wrong(`Check if you have controls enabled for the video element and if a poster has been added.`)
         }),
-        // Test 12 - check video border
+        // Test 11 - check video border
         this.page.execute(() => {
             let videoStyles = window.getComputedStyle(this.video[0]);
 
@@ -102,14 +102,14 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check border of your video tag.`)
         }),
-        // Test 13 - check video width and height
+        // Test 12 - check video width and height
         this.node.execute(async () => {
             let videoWidth = await this.page.evaluate(async () => {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().width, video.getBoundingClientRect().height];
             });
 
-            return videoWidth[0] === 828 && Math.round(videoWidth[1]) === 500 ?
+            return videoWidth[0] === 828 && Math.abs(videoWidth[1] - 500) < 2 ?
                 correct() :
                 wrong(`Check size of video element.`);
         }),
