@@ -51,6 +51,7 @@ aside {
     flex-direction: column;
     flex-basis: 395px;
     flex-shrink: 0.6;
+    margin-top: 10px;
 }
 
 .movie-title {
@@ -132,5 +133,5 @@ button {
 
 button:hover {
     background: #822DB4;
-    color: white;
+    color: #F2EBFF;
 }

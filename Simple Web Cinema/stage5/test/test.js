@@ -10,6 +10,13 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
+function nonStrictCompare(a, b, offset) {
+    if (!offset) {
+        offset = 10;
+    }
+    return Math.abs(a - b) < offset;
+}
+
 class Test extends StageTest {
 
     page = this.getPage(pagePath)
@@ -81,8 +88,8 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
+            return nonStrictCompare(buttonCoords[0], 955) && nonStrictCompare(buttonCoords[1], 592) &&
+            nonStrictCompare(buttonCoords[2], 1170) && nonStrictCompare(buttonCoords[3], 592) ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
@@ -112,8 +119,8 @@ class Test extends StageTest {
                 return [actors.getBoundingClientRect().x, actors.getBoundingClientRect().y,
                     reviews.getBoundingClientRect().x, reviews.getBoundingClientRect().y];
             });
-            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 785) < 10 &&
-            ahCoords[2] === 90 && Math.abs(ahCoords[3] - 1270) < 10 ?
+            return ahCoords[0] === 90 && nonStrictCompare(ahCoords[1], 786) &&
+            ahCoords[2] === 90 && nonStrictCompare(ahCoords[3], 1270) ?
                 correct() :
                 wrong(`Check position of actors-header element.`);
         }),
@@ -150,9 +157,9 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return coords[0] === 90 && Math.abs(coords[1] - 1348) < 5 ?
+            return coords[0] === 90 && nonStrictCompare(coords[1], 1348) ?
                 correct() :
-                wrong(`Please, check position of your first review.`)
+                wrong(`Please, check position of your first review, your positions now: x=${coords[0]} and ${coords[1]}.`)
         }),
         // Test 16 - check size of first reviews-list article
         this.node.execute(async () => {
@@ -160,7 +167,7 @@ class Test extends StageTest {
                 let obj = document.querySelectorAll('#reviews-list article')[0];
                 return obj.getBoundingClientRect().width
             });
-            return width === 1018 ?
+            return nonStrictCompare(width, 936, 5) ?
                 correct() :
                 wrong(`Please check the width of the element with review.`)
         }),
@@ -169,7 +176,7 @@ class Test extends StageTest {
         this.node.execute(async () => {
             const button = await this.page.findBySelector('button');
             await button.hover();
-            sleep(500);
+            sleep(400);
             const hoverButton = await this.page.findBySelector('button:hover');
 
             const styles = await hoverButton.getComputedStyles();
@@ -197,13 +204,27 @@ class Test extends StageTest {
         this.node.execute(async () => {
             const actor = await this.page.findBySelector('#actors-list article');
             await actor.hover();
-            sleep(500);
+            sleep(400);
             const hoverButton = await this.page.findBySelector('#actors-list article:hover');
 
             const styles = await hoverButton.getComputedStyles();
 
-            return styles.transform === 'matrix(1, 0, 0, 1, 10, -10)' &&
-            styles.boxShadow === 'rgb(0, 0, 0) -10px 10px 0px 0px' ?
+            let transformMatch = styles.transform.match(/matrix\(1, 0, 0, 1, (?<first>.+), (?<second>.+)\)/);
+            let isTransform = false;
+            if(transformMatch) {
+                isTransform = transformMatch.groups.first && Math.round(transformMatch.groups.first) === 10 &&
+                    transformMatch.groups.second && Math.round(transformMatch.groups.second) === -10;
+            }
+
+            let boxShadowMatch = styles.boxShadow.match(/rgb\(0, 0, 0\) (?<first>.+)px (?<second>.+)px 0px 0px/);
+            let isBoxShadow = false;
+            if(boxShadowMatch) {
+                isBoxShadow = boxShadowMatch.groups.first && Math.round(boxShadowMatch.groups.first) === -10 &&
+                    boxShadowMatch.groups.second && Math.round(boxShadowMatch.groups.second) === 10;
+            }
+
+
+            return isTransform && isBoxShadow?
                 correct() :
                 wrong(`Please check transform- and box-shadow-animation after actor hovering.`)
         }),
@@ -251,9 +272,10 @@ class Test extends StageTest {
                 let caption1 = document.querySelectorAll('.reviews-summary .caption')[0].getBoundingClientRect();
                 return [rn1.x, rn1.y-summary.y, rn2.x, rn2.y-summary.y, caption1.x, caption1.y-summary.y];
             });
-
-            return coords[0] === 1269 && coords[2] === coords[0] && coords[4] === coords[0] &&
-                coords[1] === 15 && coords[3] === 102 && coords[5] === 51
+            console.log(coords)
+            return nonStrictCompare(coords[0], 1189) && coords[2] === coords[0] && coords[4] === coords[0] &&
+                nonStrictCompare(coords[1], 15, 6) && nonStrictCompare(coords[3], 102, 5)
+                && nonStrictCompare(coords[5], 51, 5)
                 ?
                 correct() :
                 wrong(`Please, check internal positions of your .review-summary element.`)
@@ -271,7 +293,7 @@ class Test extends StageTest {
                 let y2 = document.querySelector('.reviews-summary').getBoundingClientRect().y;
                 return [y1, y2];
             });
-            return Math.abs(positions[0] - 1348) < 5 && Math.abs(positions[1]) < 5 ?
+            return nonStrictCompare(positions[0], 1348) && Math.abs(positions[1]) < 5 ?
                 correct() :
                 wrong('Your summary element should "stick" to the top of the page when you scroll down.');
         })

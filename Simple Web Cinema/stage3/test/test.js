@@ -2,6 +2,13 @@ import path from 'path';
 const pagePath = path.join(import.meta.url, '../../src/index.html');
 import {StageTest, correct, wrong} from 'hs-test-web';
 
+function nonStrictCompare(a, b, offset) {
+    if (!offset) {
+        offset = 10;
+    }
+    return Math.abs(a - b) < offset;
+}
+
 class Test extends StageTest {
 
     page = this.getPage(pagePath)
@@ -29,9 +36,9 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
+            return videoCoords[0] === 90 && nonStrictCompare(videoCoords[1], 134) ?
                 correct() :
-                wrong(`Check position of video element.`);
+                wrong(`Check position of video element, your positions now: x=${videoCoords[0]} and y=${videoCoords[1]}.`);
         }),
         // Test 4 - check name
         this.page.execute(() => {
@@ -73,8 +80,8 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
+            return nonStrictCompare(buttonCoords[0], 955) && nonStrictCompare(buttonCoords[1], 592) &&
+            nonStrictCompare(buttonCoords[2], 1170) && nonStrictCompare(buttonCoords[3], 592) ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
@@ -100,9 +107,9 @@ class Test extends StageTest {
                 let ahObj = document.getElementsByClassName('section-header')[0];
                 return [ahObj.getBoundingClientRect().x, ahObj.getBoundingClientRect().y];
             });
-            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 785) < 10 ?
+            return ahCoords[0] === 90 && nonStrictCompare(ahCoords[1], 786) ?
                 correct() :
-                wrong(`Check position of .section-header element.`);
+                wrong(`Check position of .section-header element, your positions are: x=${ahCoords[0]} and y=${ahCoords[1]}.`);
         }),
         //Test 12 - check article
         this.page.execute(() => {
@@ -118,7 +125,7 @@ class Test extends StageTest {
                 let arObj = document.querySelector('#actors-list article');
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return arCoords[0] === 90 && Math.abs(arCoords[1] - 865) < 10 ?
+            return arCoords[0] === 90 && nonStrictCompare(arCoords[1], 865) ?
                 correct() :
                 wrong(`Check position of first article element.`);
         }),
@@ -128,7 +135,7 @@ class Test extends StageTest {
                 let arObj = document.querySelectorAll('#actors-list article')[2];
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return Math.abs(arCoords[0] - 460) < 5 && Math.abs(arCoords[1] - 865) < 10 ?
+            return nonStrictCompare(arCoords[0], 460, 5) && nonStrictCompare(arCoords[1], 865) ?
                 correct() :
                 wrong(`Check position of third article element.`);
         }),
@@ -170,7 +177,7 @@ class Test extends StageTest {
             let styles = window.getComputedStyle(this.divs[0]);
             return styles.fontSize === "15px" ?
                 correct() :
-                wrong(`Your page should contain 7 article elements.`)
+                wrong(`Check font of your article div element.`)
         }),
         //Test 20 - check article border
         this.page.execute(() => {
@@ -188,7 +195,7 @@ class Test extends StageTest {
                 let arObj = artObjs[4];
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return Math.abs(arCoords[0] - 643) < 5 && Math.abs(arCoords[1] - 865) < 10 ?
+            return nonStrictCompare(arCoords[0], 643, 5) && nonStrictCompare(arCoords[1], 865) ?
                 correct() :
                 wrong(`Check position of your actors after removing 2 actors.`);
         }),

@@ -2,6 +2,13 @@ import path from 'path';
 const pagePath = path.join(import.meta.url, '../../src/index.html');
 import {StageTest, correct, wrong} from 'hs-test-web';
 
+function nonStrictCompare(a, b, offset) {
+    if (!offset) {
+        offset = 10;
+    }
+    return Math.abs(a - b) < offset;
+}
+
 class Test extends StageTest {
 
     page = this.getPage(pagePath)
@@ -29,7 +36,7 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
+            return videoCoords[0] === 90 && nonStrictCompare(videoCoords[1], 134) ?
                 correct() :
                 wrong(`Check position of video element.`);
         }),
@@ -73,8 +80,8 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
+            return nonStrictCompare(buttonCoords[0], 955) && nonStrictCompare(buttonCoords[1], 592) &&
+            nonStrictCompare(buttonCoords[2], 1170) && nonStrictCompare(buttonCoords[3], 592) ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
@@ -104,8 +111,8 @@ class Test extends StageTest {
                 return [actors.getBoundingClientRect().x, actors.getBoundingClientRect().y,
                     reviews.getBoundingClientRect().x, reviews.getBoundingClientRect().y];
             });
-            return ahCoords[0] === 90 && Math.abs(ahCoords[1] - 785) < 10 &&
-            ahCoords[2] === 90 && Math.abs(ahCoords[3] - 1270) < 10 ?
+            return ahCoords[0] === 90 && nonStrictCompare(ahCoords[1], 786) &&
+            ahCoords[2] === 90 && nonStrictCompare(ahCoords[3], 1270) ?
                 correct() :
                 wrong(`Check position of actors-header element.`);
         }),
@@ -123,7 +130,7 @@ class Test extends StageTest {
                 let arObj = document.querySelector('#actors-list article');
                 return [arObj.getBoundingClientRect().x, arObj.getBoundingClientRect().y];
             });
-            return arCoords[0] === 90 && Math.abs(arCoords[1] - 865) < 10 ?
+            return arCoords[0] === 90 && nonStrictCompare(arCoords[1], 865) ?
                 correct() :
                 wrong(`Check position of first article element.`);
         }),
@@ -150,9 +157,9 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return coords[0] === 90 && Math.abs(coords[1] - 1348) < 5 ?
+            return coords[0] === 90 && nonStrictCompare(coords[1], 1348) ?
                 correct() :
-                wrong(`Please, check position of your first review.`)
+                wrong(`Please, check position of your first review, your positions now: x=${coords[0]} and ${coords[1]}.`)
         }),
         // Test 17 - check position of second reviews-list article
         this.node.execute(async () => {
@@ -171,9 +178,9 @@ class Test extends StageTest {
                 let obj = document.querySelectorAll('#reviews-list article')[0];
                 return obj.getBoundingClientRect().width
             });
-            return width === 1018 ?
+            return nonStrictCompare(width, 936, 5) ?
                 correct() :
-                wrong(`Please check the width of the element with review.`)
+                wrong(`Please check the width of the element with review, your width now - ${width}px.`)
         }),
         // Test 19 - check position of first reviews-list article span
         this.node.execute(async () => {
@@ -181,9 +188,9 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article .date');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1390) < 5 ?
+            return nonStrictCompare(coords[0], 130, 5) && nonStrictCompare(coords[1], 1392) ?
                 correct() :
-                wrong(`Please, check position of your first .date element.`)
+                wrong(`Please, check position of your first .date element, your position: x=${coords[0]} and y=${coords[1]}.`)
         }),
         // Test 20 - check position of first reviews-list article h1
         this.node.execute(async () => {
@@ -191,9 +198,9 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article h1');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1431) < 5 ?
+            return nonStrictCompare(coords[0], 130, 5) && nonStrictCompare(coords[1], 1435) ?
                 correct() :
-                wrong(`Please, check position of your first h1 element of article.`)
+                wrong(`Please, check position of your first h1 element of article, your position - x=${coords[0]} and y=${coords[1]}.`)
         }),
         // Test 21 - check position of first reviews-list article p
         this.node.execute(async () => {
@@ -201,9 +208,9 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article p');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 130) < 5 && Math.abs(coords[1] - 1485) < 5 ?
+            return nonStrictCompare(coords[0], 130, 5) && nonStrictCompare(coords[1], 1480, 15) ?
                 correct() :
-                wrong(`Please, check position of your first h1 element of article.`)
+                wrong(`Please, check position of your first h1 element of article, your position - x=${coords[0]} and y=${coords[1]}.`)
         }),
         // Test 22 - check fonts of all elements of article
         this.page.execute(() => {
@@ -227,9 +234,9 @@ class Test extends StageTest {
                 let obj = document.querySelector('#reviews-list article .grade');
                 return [obj.getBoundingClientRect().x, obj.getBoundingClientRect().y];
             });
-            return Math.abs(coords[0] - 995) < 5 && Math.abs(coords[1] - 1348) < 5 ?
+            return nonStrictCompare(coords[0], 915, 5) && nonStrictCompare(coords[1], 1348) ?
                 correct() :
-                wrong(`Please, check position of your first h1 element of article.`)
+                wrong(`Please, check position of your first .grade element of article, your position - x=${coords[0]} and y=${coords[1]}.`)
         }),
         // Test 24 - check background and fonts of first reviews-list article grade
         this.page.execute(() => {
@@ -251,13 +258,13 @@ class Test extends StageTest {
                 wrong(`Please, check size of article grade.`)
         }),
 
-        //Test 26 - check click on reviews-button
+        //Test 27 - check click on reviews-button
         this.node.execute(async () => {
             await this.page.setViewport({width: 1440, height: 1200});
             const reviewsButton = await this.page.findAllBySelector('button');
             await reviewsButton[1].click();
             let scrollTop = await this.page.evaluate(async () => {
-                return document.querySelector('#reviews-section').getBoundingClientRect().y;
+                return document.querySelectorAll('.section-header')[1].getBoundingClientRect().y;
             });
             return  Math.round(scrollTop) === 0 ?
                 correct() :

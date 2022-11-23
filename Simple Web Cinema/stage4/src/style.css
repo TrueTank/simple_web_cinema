@@ -51,6 +51,7 @@ aside {
     flex-direction: column;
     flex-basis: 395px;
     flex-shrink: 0.6;
+    margin-top: 10px;
 }
 
 .movie-title {
@@ -196,7 +197,7 @@ button:hover {
     background: #F2EBFF;
     border: 1px solid #000000;
     border-radius: 10px;
-    width: 936px;
+    width: 856px;
     margin-bottom: 40px;
     padding: 40px;
     position: relative;
@@ -213,12 +214,14 @@ button:hover {
     font-weight: 600;
     font-size: 24px;
     line-height: 29px;
+    margin-top: 20px;
 }
 
 #reviews-list article p {
     font-weight: 400;
     font-size: 18px;
     line-height: 26px;
+    margin-top: 20px;
 }
 
 article .grade {

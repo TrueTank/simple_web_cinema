@@ -2,9 +2,15 @@ import path from 'path';
 const pagePath = path.join(import.meta.url, '../../src/index.html');
 import {StageTest, correct, wrong} from 'hs-test-web';
 
+function nonStrictCompare(a, b, offset) {
+    if (!offset) {
+        offset = 10;
+    }
+    return Math.abs(a - b) < offset;
+}
 class Test extends StageTest {
 
-    page = this.getPage(pagePath)
+    page = this.getPage(pagePath);
 
     tests = [
         // Test 1 - check main-title
@@ -38,7 +44,7 @@ class Test extends StageTest {
                 let titleObj = document.getElementById('main-title');
                 return [titleObj.getBoundingClientRect().x, titleObj.getBoundingClientRect().y];
             });
-            return titleCoords[0] === 90 && titleCoords[1] === 20 ?
+            return titleCoords[0] === 90 && nonStrictCompare(titleCoords[1], 20, 5) ?
                 correct() :
                 wrong(`Check float and position of main-title element.`);
         }),
@@ -84,7 +90,7 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
+            return videoCoords[0] === 90 && nonStrictCompare(videoCoords[1], 134) ?
                 correct() :
                 wrong(`Check position of video element.`);
         }),
@@ -109,10 +115,11 @@ class Test extends StageTest {
                 return [video.getBoundingClientRect().width, video.getBoundingClientRect().height];
             });
 
-            return videoWidth[0] === 828 && Math.abs(videoWidth[1] - 500) < 2 ?
+            return videoWidth[0] === 828 && nonStrictCompare(videoWidth[1], 500) ?
                 correct() :
-                wrong(`Check size of video element.`);
+                wrong(`Check size of video element, now you have width=${videoWidth[0]} and height=${videoWidth[1]}.`);
         }),
+
     ]
 
 }

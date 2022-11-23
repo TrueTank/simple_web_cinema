@@ -2,6 +2,13 @@ import path from 'path';
 const pagePath = path.join(import.meta.url, '../../src/index.html');
 import {StageTest, correct, wrong} from 'hs-test-web';
 
+function nonStrictCompare(a, b, offset) {
+    if (!offset) {
+        offset = 10;
+    }
+    return Math.abs(a - b) < offset;
+}
+
 class Test extends StageTest {
 
     page = this.getPage(pagePath)
@@ -58,9 +65,9 @@ class Test extends StageTest {
                 let video = document.getElementsByTagName('video')[0];
                 return [video.getBoundingClientRect().x, video.getBoundingClientRect().y];
             });
-            return videoCoords[0] === 90 && videoCoords[1] === 134 ?
+            return videoCoords[0] === 90 && nonStrictCompare(videoCoords[1], 134) ?
                 correct() :
-                wrong(`Check position of video element.`);
+                wrong(`Check position of video element, your positions now: x=${videoCoords[0]} and y=${videoCoords[1]}.`);
         }),
         // Test 7 - check video width and height
         this.node.execute(async () => {
@@ -69,9 +76,9 @@ class Test extends StageTest {
                 return [video.getBoundingClientRect().width, video.getBoundingClientRect().height];
             });
 
-            return videoWidth[0] === 828 && Math.abs(videoWidth[1] - 500) < 2 ?
+            return videoWidth[0] === 828 && nonStrictCompare(videoWidth[1], 500) ?
                 correct() :
-                wrong(`Check size of video element.`);
+                wrong(`Check size of video element, now you have width=${videoWidth[0]} and height=${videoWidth[1]}.`);
         }),
 
         // Test 8 - check name
@@ -97,9 +104,9 @@ class Test extends StageTest {
                 let nameEl = document.getElementsByClassName('name')[0];
                 return [nameEl.getBoundingClientRect().x, nameEl.getBoundingClientRect().y];
             });
-            return nameCoords[0] === 955 && nameCoords[1] === 134 ?
+            return nonStrictCompare(nameCoords[0], 955) && nonStrictCompare(nameCoords[1], 144) ?
                 correct() :
-                wrong(`Check position of name element.`);
+                wrong(`Check position of name element, your positions are: x=${nameCoords[0]} and y=${nameCoords[1]}.`);
         }),
 
         // Test 11 - check rating
@@ -119,7 +126,7 @@ class Test extends StageTest {
                 correct() :
                 wrong(`Please, check font of rating element.`)
         }),
-        // Test 13 - check rating and name positions
+        // Test 13 - check rating positions
         this.node.execute(async () => {
             let ratingCoords = await this.page.evaluate(async () => {
                 let ratingEl = document.querySelector('.rating').getBoundingClientRect();
@@ -130,9 +137,9 @@ class Test extends StageTest {
 
                 return [ratingLeft - nameRight, ratingEl.y];
             });
-            return ratingCoords[0] === 20 && ratingCoords[1] === 144 ?
+            return ratingCoords[0] === 20 && nonStrictCompare(ratingCoords[1], 154) ?
                 correct() :
-                wrong(`Check position of name and rating elements.`);
+                wrong(`Check position of rating element.`);
         }),
         // Test 14 - check rating border
         this.page.execute(() => {
@@ -170,7 +177,7 @@ class Test extends StageTest {
                 let subInfoEl = document.getElementsByClassName('sub-info')[0];
                 return [subInfoEl.getBoundingClientRect().x, subInfoEl.getBoundingClientRect().y];
             });
-            return subInfoCoords[0] === 955 && subInfoCoords[1] === 193 ?
+            return nonStrictCompare(subInfoCoords[0], 955) && nonStrictCompare(subInfoCoords[1], 203) ?
                 correct() :
                 wrong(`Check position of sub-info element.`);
         }),
@@ -198,7 +205,7 @@ class Test extends StageTest {
                 let descriptionEl = document.getElementsByClassName('description')[0];
                 return [descriptionEl.getBoundingClientRect().x, descriptionEl.getBoundingClientRect().y];
             });
-            return descriptionCoords[0] === 955 && descriptionCoords[1] === 240 ?
+            return nonStrictCompare(descriptionCoords[0], 955) && nonStrictCompare(descriptionCoords[1], 250) ?
                 correct() :
                 wrong(`Check position of description element.`);
         }),
@@ -226,9 +233,9 @@ class Test extends StageTest {
                 let tableEl = document.getElementsByTagName('table')[0];
                 return [tableEl.getBoundingClientRect().x, tableEl.getBoundingClientRect().y];
             });
-            return tableCoords[0] === 955 && tableCoords[1] === 359 ?
+            return nonStrictCompare(tableCoords[0], 955) && nonStrictCompare(tableCoords[1], 369, 15) ?
                 correct() :
-                wrong(`Check position of table element.`);
+                wrong(`Check position of table element, your positions are: x=${tableCoords[0]} and y=${tableCoords[1]}.`);
         }),
         // Test 25 - check table headers styles
         this.page.execute(() => {
@@ -271,8 +278,8 @@ class Test extends StageTest {
                 return [buttonEl1.getBoundingClientRect().x, buttonEl1.getBoundingClientRect().y,
                     buttonEl2.getBoundingClientRect().x, buttonEl2.getBoundingClientRect().y];
             });
-            return buttonCoords[0] === 955 && buttonCoords[1] === 582 &&
-            buttonCoords[2] === 1170 && buttonCoords[3] === 582 ?
+            return nonStrictCompare(buttonCoords[0], 955) && nonStrictCompare(buttonCoords[1], 592) &&
+            nonStrictCompare(buttonCoords[2], 1170) && nonStrictCompare(buttonCoords[3], 592) ?
                 correct() :
                 wrong(`Check position of buttons element.`);
         }),
@@ -293,19 +300,11 @@ class Test extends StageTest {
             const button = await this.page.findBySelector('button');
             await button.hover();
             let style = await button.getComputedStyles();
-            return style.backgroundColor === 'rgb(130, 45, 180)' && style.color === 'rgb(255, 255, 255)' ?
+            return style.backgroundColor === 'rgb(130, 45, 180)' && style.color === 'rgb(242, 235, 255)' ?
                 correct() :
                 wrong(`Check hover-effect of buttons.`);
         }),
-        // Test 32 - check height of table rows
-        this.page.execute(() => {
-            this.tableTdStyles = window.getComputedStyle(document.getElementsByTagName('td')[0]);
-
-            return this.tableTdStyles.height === '45px' ?
-                correct() :
-                wrong(`Please, check height of table cell.`)
-        }),
-        // Test 33 - check video src
+        // Test 32 - check video src
         this.page.execute(() => {
             return this.video[0].src ?
                 correct() :
